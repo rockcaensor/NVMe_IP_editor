@@ -1,9 +1,7 @@
 
 #this function returns number of line with searching string value
 
-
 from locations import PCIeBlockLocation
-
 
 PCIeBlockLocationValues = {"X0Y0": "0",
                            "X0Y1": "1",
@@ -47,7 +45,6 @@ def Set_pcie_blk_locn(filename, pcie_blc_locn_val):
     TempLine = ''.join(TempList) #join separated elements to string 
     
     lines[StringNumber] = TempLine
-
     
     FindingPart = '"MODELPARAM_VALUE.PCIE_BLK_LOCN">'      
     

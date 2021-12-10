@@ -25,12 +25,28 @@ class MainApp(QMainWindow, Ui_NVMe_IP_tool):
         self.ui.setupUi(self)
         self.ui.retranslateUi(self)
         self.ui.OpenProjectButton.clicked.connect(self.browse_folder)
+        self.ui.ShowSettingsButton.clicked.connect(self.ShowSettings)
         
         for i in range (self.ui.tabs_number):           
             self.ui.BlockLocationComboBox[i].currentTextChanged.connect(self.GTListChange)          
             self.ui.ApplyButton[i].clicked.connect(self.ApplySettings)
             
         self.show()
+
+    def ShowSettings(self):
+        TabIndex = self.ui.tabWidget.currentIndex()
+        ValuesList = []
+        LogText_0 = ""
+
+        for i in range(len(self.NVMe_list_main)):
+            ValuesList.append(GetValues(self.NVMe_list_main[i][1]))
+
+        for i in range(len(self.NVMe_list_main)):
+            LogText_0 = self.GetCurrentTime() + "  " + self.NVMe_list_main[i][0] + " - PCIe Block Location: " + \
+                ValuesList[i][0] + ", GT Selection: " + ValuesList[i][1]
+            self.ui.LogWindow.addItem(LogText_0)      
+        
+        
 
     def ApplySettings(self):
         TabIndex = self.ui.tabWidget.currentIndex()
@@ -39,6 +55,14 @@ class MainApp(QMainWindow, Ui_NVMe_IP_tool):
         QuadValue = self.ui.GTSelectionComboBox[TabIndex].currentText()
         Set_pcie_blk_locn(FileName, BlockLocationValue)  #filename, value
         Set_quad(FileName, QuadValue)
+        
+        SetText = '  Set block location "' + str(BlockLocationValue) + '" and' \
+            +  ' GT Selection "' + str(QuadValue) + '" for ' + str(self.NVMe_list_main[TabIndex][0]) + " core"
+
+        LogText_0 = self.GetCurrentTime() + SetText    #   Text string for console
+        self.ui.LogWindow.addItem(LogText_0)   #   Console write
+
+
 
     def GTListChange(self):
         if (self.OpenFolderProcess != 1):
@@ -54,6 +78,7 @@ class MainApp(QMainWindow, Ui_NVMe_IP_tool):
 
     def browse_folder(self):
         self.ui.ProjectWindow.clear()
+        self.directory = ""
         self.directory = QFileDialog.getExistingDirectory(self, "Выберите папку")
 
         if self.directory:
@@ -86,13 +111,23 @@ class MainApp(QMainWindow, Ui_NVMe_IP_tool):
                   
                 self.OpenFolderProcess = 0    
 
-                self.ui.ProjectWindow.addItem(self.directory) 
-                LogText_0 = str(datetime.datetime.now())[11:19] + "  Open project:  " + self.directory
-                LogText_1 = "Finding " + str(self.IP_count) + " ip cores"
-                self.ui.LogWindow.addItem(LogText_0)
-                self.ui.LogWindow.addItem(LogText_1)
-            
+                self.ui.ProjectWindow.addItem(self.directory)
+
+                coresText = ""
+                if self.IP_count == 1:
+                    coresText = " IP core)"
+                else:
+                    coresText = " IP cores)"     
+
+                LogText_1 = "(Finding " + str(self.IP_count) + coresText
+                LogText_0 = self.GetCurrentTime() + "  Open project:  " + self.directory + (" "*8) + LogText_1
                 
+                self.ui.LogWindow.addItem(LogText_0)
+               # self.ui.LogWindow.addItem(LogText_1)
+
+    def GetCurrentTime(self):
+        Time = str(datetime.datetime.now())[11:19]
+        return Time            
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

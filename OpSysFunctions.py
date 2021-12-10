@@ -16,11 +16,8 @@ def PathMaker(pathVar):
             else:
                 CurrentPath = CurrentPath + "\\" + i + \
                 "\\sources_1\\bd" 
-
-
         
     DirList = os.listdir(CurrentPath)
-
     
     for i in DirList:
         for dirs in (os.listdir((CurrentPath + "\\" + i))):
@@ -29,20 +26,21 @@ def PathMaker(pathVar):
                 exit
             else:
                 continue
-              
-
-    
 
     DirList = os.listdir(CurrentPath)
 
     for i in DirList:
-        if i.find("NVMe_IP") == -1:
+        if i.find("_NVMe_IP") == -1:
             continue
         else:  
-            FolderName = i            
-            i = (i[9:len(i)])
+            FolderName = i       
+            StartOfName = i.find("_NVMe_IP") + 1 
+            i = (i[StartOfName:len(FolderName)])
             IP_path = CurrentPath + "\\" + FolderName + "\\src\\NVMe_IP_xdma_0_0\\NVMe_IP_xdma_0_0.xci"
             NVMe_list.append([i, IP_path])
+            print(NVMe_list)
     return(NVMe_list)
+
+
 
  

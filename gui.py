@@ -130,7 +130,7 @@ class Ui_NVMe_IP_tool(QtWidgets.QWidget):
         self.LogLabel.setFont(font)
         self.LogLabel.setObjectName("LogLabel")
         self.LogWindow = QtWidgets.QListWidget(self.centralwidget)
-        self.LogWindow.setGeometry(QtCore.QRect(10, 250, 681, 91))
+        self.LogWindow.setGeometry(QtCore.QRect(10, 250, 681, 120))
         self.LogWindow.setObjectName("LogWindow")
         self.ShowSettingsButton = QtWidgets.QPushButton(self.centralwidget)
         self.ShowSettingsButton.setGeometry(QtCore.QRect(360, 180, 131, 30))
