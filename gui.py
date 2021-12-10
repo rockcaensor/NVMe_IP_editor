@@ -9,11 +9,25 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from locations import *
 import sys
 
 
 
-class Ui_NVMe_IP_tool(object):
+class Ui_NVMe_IP_tool(QtWidgets.QWidget):
+    tabs_number = 1
+    tabs = []
+    SettingsGroupBox = []
+    GTLabel = []
+    PCIeLabel = []
+    GTSelectionComboBox = []
+    BlockLocationComboBox = []
+    ApplyButton = []
+    NVMe_name = []
+
+    def __init__(self):
+        super().__init__()
+    
     def setupUi(self, NVMe_IP_tool):
         NVMe_IP_tool.setObjectName("NVMe_IP_tool")
         NVMe_IP_tool.resize(700, 390)
@@ -67,77 +81,59 @@ class Ui_NVMe_IP_tool(object):
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
         self.tabWidget.setPalette(palette)
         self.tabWidget.setObjectName("tabWidget")
-        self.tab = QtWidgets.QWidget()##########################################################
-        self.tab.setObjectName("tab")##########################################################
-        self.SettingsGroupBox = QtWidgets.QGroupBox(self.tab) ##########################################################
-        self.SettingsGroupBox.setGeometry(QtCore.QRect(10, 10, 311, 131)) ##########################################################
-        font = QtGui.QFont()##########################################################
-        font.setPointSize(10)##########################################################
-        self.SettingsGroupBox.setFont(font)##########################################################
-        self.SettingsGroupBox.setObjectName("SettingsGroupBox")##########################################################
-        self.GTLabel = QtWidgets.QLabel(self.SettingsGroupBox)##########################################################
-        self.GTLabel.setGeometry(QtCore.QRect(30, 90, 151, 21))##########################################################
-        font = QtGui.QFont()##########################################################
-        font.setPointSize(10)##########################################################
-        self.GTLabel.setFont(font)##########################################################
-        self.GTLabel.setObjectName("GTLabel")##########################################################
-        self.PCIeLabel = QtWidgets.QLabel(self.SettingsGroupBox)##########################################################
-        self.PCIeLabel.setGeometry(QtCore.QRect(30, 40, 151, 21))##########################################################
-        font = QtGui.QFont()##########################################################
-        font.setPointSize(10)##########################################################
-        self.PCIeLabel.setFont(font)##########################################################
-        self.PCIeLabel.setObjectName("PCIeLabel")##########################################################
-        self.GTSelectionComboBox = QtWidgets.QComboBox(self.SettingsGroupBox)##########################################################
-        self.GTSelectionComboBox.setGeometry(QtCore.QRect(180, 90, 111, 21))##########################################################
-        self.GTSelectionComboBox.setObjectName("GTSelectionComboBox")##########################################################
-        self.BlockLocationComboBox = QtWidgets.QComboBox(self.SettingsGroupBox)##########################################################
-        self.BlockLocationComboBox.setGeometry(QtCore.QRect(180, 40, 111, 22))##########################################################
-        self.BlockLocationComboBox.setObjectName("BlockLocationComboBox")##########################################################
-        self.ApplyButton = QtWidgets.QPushButton(self.tab)##########################################################
-        self.ApplyButton.setGeometry(QtCore.QRect(220, 150, 81, 30))##########################################################
-        self.ApplyButton.setObjectName("ApplyButton")##########################################################
-        self.tabWidget.addTab(self.tab, "")##########################################################
-        self.tab_2 = QtWidgets.QWidget()
-        self.tab_2.setObjectName("tab_2")
-        self.groupBox_5 = QtWidgets.QGroupBox(self.tab_2)
-        self.groupBox_5.setGeometry(QtCore.QRect(10, 10, 321, 131))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.groupBox_5.setFont(font)
-        self.groupBox_5.setObjectName("groupBox_5")
-        self.label_17 = QtWidgets.QLabel(self.groupBox_5)
-        self.label_17.setGeometry(QtCore.QRect(30, 90, 151, 21))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.label_17.setFont(font)
-        self.label_17.setObjectName("label_17")
-        self.label_18 = QtWidgets.QLabel(self.groupBox_5)
-        self.label_18.setGeometry(QtCore.QRect(30, 40, 151, 21))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.label_18.setFont(font)
-        self.label_18.setObjectName("label_18")
-        self.comboBox_17 = QtWidgets.QComboBox(self.groupBox_5)
-        self.comboBox_17.setGeometry(QtCore.QRect(180, 90, 111, 21))
-        self.comboBox_17.setObjectName("comboBox_17")
-        self.comboBox_18 = QtWidgets.QComboBox(self.groupBox_5)
-        self.comboBox_18.setGeometry(QtCore.QRect(180, 40, 111, 22))
-        self.comboBox_18.setObjectName("comboBox_18")
-        self.pushButton_4 = QtWidgets.QPushButton(self.tab_2)
-        self.pushButton_4.setGeometry(QtCore.QRect(220, 150, 81, 30))
-        self.pushButton_4.setObjectName("pushButton_4")
-        self.tabWidget.addTab(self.tab_2, "")
+        
+        for i in range(self.tabs_number):
+            self.tabs.append(i)
+            self.SettingsGroupBox.append(i)
+            self.GTLabel.append(i)
+            self.PCIeLabel.append(i)
+            self.GTSelectionComboBox.append(i)
+            self.BlockLocationComboBox.append(i)
+            self.ApplyButton.append(0)
+
+            self.tabs[i] = QtWidgets.QWidget()
+            self.tabs[i].setObjectName("tab_" + str(i))
+            self.SettingsGroupBox[i] = QtWidgets.QGroupBox(self.tabs[i]) 
+            self.SettingsGroupBox[i].setGeometry(QtCore.QRect(10, 10, 311, 131)) 
+            font = QtGui.QFont()
+            font.setPointSize(10)
+            self.SettingsGroupBox[i].setFont(font)
+            self.SettingsGroupBox[i].setObjectName("SettingsGroupBox_" + str(i))
+            self.GTLabel[i] = QtWidgets.QLabel(self.SettingsGroupBox[i])
+            self.GTLabel[i].setGeometry(QtCore.QRect(30, 90, 151, 21))
+            font = QtGui.QFont()
+            font.setPointSize(10)
+            self.GTLabel[i].setFont(font)
+            self.GTLabel[i].setObjectName("GTLabel")
+            self.PCIeLabel[i] = QtWidgets.QLabel(self.SettingsGroupBox[i])
+            self.PCIeLabel[i].setGeometry(QtCore.QRect(30, 40, 151, 21))
+            font = QtGui.QFont()
+            font.setPointSize(10)
+            self.PCIeLabel[i].setFont(font)
+            self.PCIeLabel[i].setObjectName("PCIeLabel")
+            self.GTSelectionComboBox[i] = QtWidgets.QComboBox(self.SettingsGroupBox[i])
+            self.GTSelectionComboBox[i].setGeometry(QtCore.QRect(180, 90, 111, 21))
+            self.GTSelectionComboBox[i].setObjectName("GTSelectionComboBox_" + str(i))
+            self.BlockLocationComboBox[i] = QtWidgets.QComboBox(self.SettingsGroupBox[i])
+            self.BlockLocationComboBox[i].setGeometry(QtCore.QRect(180, 40, 111, 22))
+            self.BlockLocationComboBox[i].setObjectName("BlockLocationComboBox")
+            self.BlockLocationComboBox[i].addItems(PCIeBlockLocation)
+            self.ApplyButton[i] = QtWidgets.QPushButton(self.tabs[i])
+            self.ApplyButton[i].setGeometry(QtCore.QRect(220, 150, 81, 30))
+            self.ApplyButton[i].setObjectName("ApplyButton")
+            self.tabWidget.addTab(self.tabs[i], "")
+
         self.LogLabel = QtWidgets.QLabel(self.centralwidget)
         self.LogLabel.setGeometry(QtCore.QRect(10, 220, 61, 16))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.LogLabel.setFont(font)
         self.LogLabel.setObjectName("LogLabel")
-        self.LogWindow = QtWidgets.QTextBrowser(self.centralwidget)
+        self.LogWindow = QtWidgets.QListWidget(self.centralwidget)
         self.LogWindow.setGeometry(QtCore.QRect(10, 250, 681, 91))
         self.LogWindow.setObjectName("LogWindow")
         self.ShowSettingsButton = QtWidgets.QPushButton(self.centralwidget)
-        self.ShowSettingsButton.setGeometry(QtCore.QRect(370, 180, 131, 30))
+        self.ShowSettingsButton.setGeometry(QtCore.QRect(360, 180, 131, 30))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.ShowSettingsButton.setFont(font)
@@ -148,7 +144,7 @@ class Ui_NVMe_IP_tool(object):
         font.setPointSize(10)
         self.groupBox.setFont(font)
         self.groupBox.setObjectName("groupBox")
-        self.ProjectWindow = QtWidgets.QTextBrowser(self.groupBox)
+        self.ProjectWindow = QtWidgets.QListWidget(self.groupBox)
         self.ProjectWindow.setGeometry(QtCore.QRect(10, 20, 311, 71))
         self.ProjectWindow.setObjectName("ProjectWindow")
         self.OpenProjectButton = QtWidgets.QPushButton(self.groupBox)
@@ -169,17 +165,18 @@ class Ui_NVMe_IP_tool(object):
 
     def retranslateUi(self, NVMe_IP_tool):
         _translate = QtCore.QCoreApplication.translate
-        NVMe_IP_tool.setWindowTitle(_translate("NVMe_IP_tool", "MainWindow"))
-        self.SettingsGroupBox.setTitle(_translate("NVMe_IP_tool", "None"))
-        self.GTLabel.setText(_translate("NVMe_IP_tool", "GT Selection"))
-        self.PCIeLabel.setText(_translate("NVMe_IP_tool", "PCIe Block Location"))
-        self.ApplyButton.setText(_translate("NVMe_IP_tool", "Apply"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("NVMe_IP_tool", "Tab 1"))
-        self.groupBox_5.setTitle(_translate("NVMe_IP_tool", "None"))
-        self.label_17.setText(_translate("NVMe_IP_tool", "GT Selection"))
-        self.label_18.setText(_translate("NVMe_IP_tool", "PCIe Block Location"))
-        self.pushButton_4.setText(_translate("NVMe_IP_tool", "Apply"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("NVMe_IP_tool", "Tab 2"))
+        NVMe_IP_tool.setWindowTitle(_translate("NVMe_IP_tool", "NVMe_IP_editor"))
+
+        for i in range(self.tabs_number):
+            
+            self.SettingsGroupBox[i].setTitle(_translate("NVMe_IP_tool", self.NVMe_name[i]))
+            self.GTLabel[i].setText(_translate("NVMe_IP_tool", "GT Selection"))
+            self.PCIeLabel[i].setText(_translate("NVMe_IP_tool", "PCIe Block Location"))
+            self.ApplyButton[i].setText(_translate("NVMe_IP_tool", "Apply"))
+            self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabs[i]), _translate("NVMe_IP_tool", "NVMe_" + str(i)))
+           #self.tabWidget[i].setTabText(self.tabWidget[i].indexOf(self.tabs[i]), _translate("NVMe_IP_tool", "NVMe_" + str(i)))
+
+        
         self.LogLabel.setText(_translate("NVMe_IP_tool", "Log:"))
         self.ShowSettingsButton.setText(_translate("NVMe_IP_tool", "Show IP\'s settings"))
         self.groupBox.setTitle(_translate("NVMe_IP_tool", "Project:"))
